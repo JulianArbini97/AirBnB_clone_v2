@@ -3,13 +3,17 @@
 import cmd
 import sys
 from models.base_model import BaseModel
-from models.__init__ import storage
+from models import storage
 from models.user import User
 from models.place import Place
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+from os import getenv
+from models.engine.db_storage import DBStorage
+from sqlalchemy import (create_engine)
+from sqlalchemy.orm import sessionmaker
 
 
 class HBNBCommand(cmd.Cmd):
@@ -33,7 +37,7 @@ class HBNBCommand(cmd.Cmd):
     def preloop(self):
         """Prints if isatty is false"""
         if not sys.__stdin__.isatty():
-            print('(hbnb)')
+            print('(hbnb) ', end="")
 
     def precmd(self, line):
         """Reformat command line for advanced command syntax.
@@ -115,16 +119,53 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        if not args:
+        params = args.split(" ")
+        c_name = params[0]
+        if not params[0]:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif c_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
-        print(new_instance.id)
-        storage.save()
+        params.pop(0)
+        dict_kwargs = {}
+        if len(params) >= 1:
+            for element in params:
+                if '=' in element:
+                    key_val = element.split('=')
+                    if key_val[1][0] == '"':
+                        check_quote = key_val[1][1:-1]
+                        check_quote = check_quote.replace('"', '\\')
+                        check_quote = check_quote.replace('_', ' ')
+                    elif '.' in key_val[1]:
+                        nums = key_val[1].split('.')
+                        is_neg = False
+                        if nums[0][0] == "-":
+                            is_neg = True
+                            nums[0] = nums[0].replace('-', '')
+                        if nums[0].isnumeric() is True and \
+                           nums[1].isnumeric() is True:
+                            check_quote = nums[0] + '.' + nums[1]
+                            if is_neg is True:
+                                check_quote = '-' + nums[0] + '.' + nums[1]
+                            else:
+                                check_quote = nums[0] + '.' + nums[1]
+                            check_quote = float(check_quote)
+                    elif key_val[1].isnumeric() is True:
+                        check_quote = int(key_val[1])
+                    else:
+                        continue
+                    dict_kwargs[key_val[0]] = check_quote
+                else:
+                    continue
+            new_instance = HBNBCommand.classes[c_name]()
+            for key, val in dict_kwargs.items():
+                # print("{}, {}".format(key, val))
+                setattr(new_instance, key, val)
+                storage.new(new_instance)
+            storage.save()
+            print(new_instance.id)
+            storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -200,15 +241,32 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
         print_list = []
-
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
+            NEW_TYPE = getenv("HBNB_TYPE_STORAGE")
+            if NEW_TYPE == "db":
+                a = "HBNB_MYSQL_USER"
+                b = "HBNB_MYSQL_PWD"
+                c = "HBNB_MYSQL_HOST"
+                d = "HBNB_MYSQL_DB"
+                self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
+                                              .format(getenv(a),
+                                                      getenv(b),
+                                                      getenv(c),
+                                                      getenv(d)),
+                                              pool_pre_ping=True)
+                Session = sessionmaker(bind=self.__engine)
+                session = Session()
+                search = session.query(eval(args)).all()
+                for s in search:
+                    print_list.append(s)
+            else:
+                for k, v in storage._FileStorage__objects.items():
+                    if k.split('.')[0] == args:
+                        print_list.append(str(v))
         else:
             for k, v in storage._FileStorage__objects.items():
                 print_list.append(str(v))
