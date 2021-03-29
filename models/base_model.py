@@ -5,16 +5,16 @@ from datetime import datetime
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 import models
-
+ 
 Base = declarative_base()
-
-
+ 
+ 
 class BaseModel:
     """A base class for all hbnb models"""
     id = Column(String(60), nullable=False, primary_key=True, unique=True)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-
+ 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
@@ -37,23 +37,23 @@ class BaseModel:
                 self.created_at = datetime.now()
             if "id" not in kwargs:
                 self.id = str(uuid.uuid4())
-
+ 
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = type(self).__name__
         return '[{}] ({}) {}'.format(cls, self.id, self.to_dict())
-
+ 
     def __repr__(self):
         """return a string representaion
         """
         return self.__str__()
-
+ 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
         self.updated_at = datetime.now()
         models.storage.new(self)
         models.storage.save()
-
+ 
     def to_dict(self):
         """Returns a dict property of: Soledad Frechou/Julian Arbini"""
         dict_returned = {}
@@ -67,7 +67,7 @@ class BaseModel:
         if '_sa_instance_state' in dict_returned:
             del dict_returned['_sa_instance_state']
         return dict_returned
-
+    
     def delete(self):
         """Delete current instance from storage"""
         models.storage.delete(self)
