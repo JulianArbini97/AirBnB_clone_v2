@@ -68,6 +68,8 @@ class FileStorage:
         """Deletes obj from __objects"""
         dict_iter = FileStorage.__objects.copy()
         for key, value in dict_iter.items():
-                new_key = key.split('.')
-                if new_key[1] == obj.__dict__['id']:
-                    del FileStorage.__objects[key]
+            new_key = key.split('.')
+            if new_key[1] == obj.__dict__['id']:
+                del FileStorage.__objects[key]
+        if not obj:
+            return
