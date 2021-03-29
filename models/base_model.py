@@ -5,12 +5,18 @@ from datetime import datetime
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 import models
- 
-Base = declarative_base()
+import os
+
+
+if os.getenv("HBNB_TYPE_STORAGE") == "db":
+    Base = declarative_base()
+else:
+    Base = object
  
  
 class BaseModel:
     """A base class for all hbnb models"""
+    
     id = Column(String(60), nullable=False, primary_key=True, unique=True)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
@@ -21,8 +27,6 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            for key, values in kwargs.items():
-                setattr(self, key, value)
         else:
             for key, value in kwargs.items():
                 if key == "updated_at":
