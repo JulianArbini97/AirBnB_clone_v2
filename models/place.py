@@ -24,12 +24,12 @@ class Place(BaseModel):
         reviews = relationship("Review", backref="place", cascade="all, delete, delete-orphan")
 
     else:
-        @propery
+        @property
         def reviews(self):
             """ List of place's reviews """
-            lista = []
+            new_list = []
             recorrido = models.storage.all(Review).items()
             for k, v in recorrido:
                 if v.place_id == self.id:
                     lista.append(recorrido[k])
-            return lista
+            return new_list
