@@ -1,72 +1,125 @@
 #!/usr/bin/python3
-"""test for city"""
+""" Tests for City class """
 import unittest
-import os
-from models.city import City
+import datetime
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
+from models.city import City
+import models
 import pep8
+import os
 
 
-class TestCity(unittest.TestCase):
-    """this will test the city class"""
+class TestingCity(unittest.TestCase):
+    """ City class - tests """
+    def test_City1(self):
+        """ Test of the City class """
+        my_City1 = City()
+
+    def test_City2(self):
+        """ Test of the City class """
+        my_City2 = City(1)
+        my_City3 = City("hola")
+        my_City4 = City([1, 2, 3])
+        my_City5 = City({"hola": "chau"})
+
+    def test_City3(self):
+        """ Test of the City class """
+        self.assertEqual(type(City), type)
+
+    def test_City4(self):
+        """ Test of the City class """
+        my_City6 = City()
+        self.assertEqual(isinstance(my_City6, City), True)
+
+    def test_City5(self):
+        """ Test of the City class """
+        my_City7 = City()
+        self.assertEqual(issubclass(City, BaseModel), True)
+
+    def test_City6(self):
+        """ Test of the City class """
+        self.assertEqual(issubclass(City, FileStorage), False)
+
+    def test_City7(self):
+        """ Test of the City class """
+        my_City8 = City()
+        my_City8.name = "Denver"
+        self.assertEqual(type(my_City8.state_id), str)
+        self.assertEqual(type(my_City8.name), str)
+
+    def test_City8(self):
+        """ Test of the City class """
+        my_City9 = City()
+        my_City9.state_id = "Borussia"
+        my_City9.name = "Dortmund"
+        self.assertTrue("state_id" in my_City9.__dict__)
+        self.assertTrue("name" in my_City9.__dict__)
+
     @classmethod
     def setUpClass(cls):
         """set up for test"""
         cls.city = City()
-        cls.city.name = "LA"
-        cls.city.state_id = "CA"
-
-    @classmethod
-    def teardown(cls):
-        """at the end of the test this will tear it down"""
-        del cls.city
-
-    def tearDown(self):
-        """teardown"""
-        try:
-            os.remove("file.json")
-        except Exception:
-            pass
-
-    def test_pep8_City(self):
-        """Tests pep8 style"""
-        style = pep8.StyleGuide(quiet=True)
-        p = style.check_files(['models/city.py'])
-        self.assertEqual(p.total_errors, 0, "fix pep8")
-
-    def test_checking_for_docstring_City(self):
-        """checking for docstrings"""
-        self.assertIsNotNone(City.__doc__)
-
-    def test_attributes_City(self):
-        """chekcing if City have attributes"""
-        self.assertTrue('id' in self.city.__dict__)
-        self.assertTrue('created_at' in self.city.__dict__)
-        self.assertTrue('updated_at' in self.city.__dict__)
-        self.assertTrue('state_id' in self.city.__dict__)
-        self.assertTrue('name' in self.city.__dict__)
-
-    def test_is_subclass_City(self):
-        """test if City is subclass of Basemodel"""
-        self.assertTrue(issubclass(self.city.__class__, BaseModel), True)
-
-    def test_attribute_types_City(self):
-        """test attribute type for City"""
-        self.assertEqual(type(self.city.name), str)
-        self.assertEqual(type(self.city.state_id), str)
+        cls.city.name = "DNV"
+        cls.city.state_id = "COL"
 
     @unittest.skipIf(
         os.getenv('HBNB_TYPE_STORAGE') == 'db',
-        "This test only work in Filestorage")
-    def test_save_City(self):
-        """test if the save works"""
+        "FileStorage only")
+    def test_save(self):
+        """save test"""
         self.city.save()
         self.assertNotEqual(self.city.created_at, self.city.updated_at)
 
-    def test_to_dict_City(self):
-        """test if dictionary works"""
+    def test_to_dict(self):
+        """to_dict test"""
         self.assertEqual('to_dict' in dir(self.city), True)
 
+    def test_City9(self):
+        """ Test of the City class """
+        my_City10 = City()
+        self.assertFalse("first" in my_City10.to_dict())
+
+    def test_City11N(self):
+        self.assertEqual(City, type(City()))
+        self.assertEqual(str, type(City().id))
+
+    def test_City12N(self):
+        my_city11 = City()
+        my_city12 = City()
+        self.assertNotEqual(my_city11.id, my_city12.id)
+
+    def test_pep8(self):
+        """pep8"""
+        style = pep8.StyleGuide(quiet=True)
+        result = style.check_files(['models/city.py'])
+        self.assertEqual(result.total_errors, 0, "fix pep8")
+
+    def test_City13N(self):
+        """kwargs"""
+        my_city13 = City(name="Denver")
+        self.assertEqual(type(my_city13).__name__, "City")
+        self.assertTrue(hasattr(my_city13, "name"))
+        self.assertTrue(hasattr(my_city13, "id"))
+        self.assertTrue(hasattr(my_city13, "created_at"))
+        self.assertTrue(hasattr(my_city13, "updated_at"))
+        self.assertTrue(hasattr(my_city13, "__class__"))
+
+    def test_City14N(self):
+        """str"""
+        s = "[City] ({}) {}"
+        my_city14 = City()
+        my_city14printed = my_city14.__str__()
+        self.assertEqual(my_city14printed,
+                         s.format(my_city14.id, my_city14.to_dict()))
+
+    def test_City15N(self):
+        """Tests """
+        my_city15 = City()
+        self.assertTrue(hasattr(my_city15, "__init__"))
+        self.assertTrue(hasattr(my_city15, "created_at"))
+        self.assertTrue(hasattr(my_city15, "updated_at"))
+        self.assertTrue(hasattr(my_city15, "id"))
 
 if __name__ == "__main__":
     unittest.main()
