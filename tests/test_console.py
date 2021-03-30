@@ -13,6 +13,7 @@ from models.place import Place
 from models.review import Review
 from models.engine.db_storage import DBStorage
 from os import getenv
+import inspect
 from console import HBNBCommand
 
 
@@ -45,6 +46,20 @@ class test_pep8aa(unittest.TestCase):
                          "HBNBCommand class needs a docstring")
         self.assertTrue(len(HBNBCommand.__doc__) >= 1,
                         "HBNBCommand class needs a docstring")
+
+    @classmethod
+    def setUpClass(cls):
+        """Set up for the doc tests"""
+        cls.dbs_f = inspect.getmembers(DBStorage, inspect.isfunction)
+
+    def test_dbs_func_docstrings(self):
+        """Test for the presence of docstrings in DBStorage methods"""
+        for func in self.dbs_f:
+            self.assertIsNot(func[1].__doc__, None,
+                             "{:s} method needs a docstring".format(func[0]))
+            self.assertTrue(len(func[1].__doc__) >= 1,
+                            "{:s} method needs a docstring".format(func[0]))
+
 
 """
 link test pep8
