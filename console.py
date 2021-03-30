@@ -132,28 +132,29 @@ class HBNBCommand(cmd.Cmd):
             for element in params:
                 if '=' in element:
                     key_val = element.split('=')
-                    if key_val[1][0] == '"' and key_val[1][-1] == '"':
-                        check_quote = key_val[1][1:-1]
-                        # check_quote = check_quote.replace('"', '\"')
-                        check_quote = check_quote.replace('_', ' ')
-                    elif '.' in key_val[1]:
-                        nums = key_val[1].split('.')
-                        is_neg = False
-                        if nums[0][0] == "-":
-                            is_neg = True
-                            nums[0] = nums[0].replace('-', '')
-                        if nums[0].isnumeric() is nums[1].isnumeric() is True:
-                            check_quote = nums[0] + '.' + nums[1]
-                            if is_neg is True:
-                                check_quote = '-' + nums[0] + '.' + nums[1]
-                            else:
+                    if key_val[1]:
+                        if key_val[1][0] == '"' and key_val[1][-1] == '"':
+                            check_quote = key_val[1][1:-1]
+                            # check_quote = check_quote.replace('"', '\"')
+                            check_quote = check_quote.replace('_', ' ')
+                        elif '.' in key_val[1]:
+                            nums = key_val[1].split('.')
+                            is_neg = False
+                            if nums[0][0] == "-":
+                                is_neg = True
+                                nums[0] = nums[0].replace('-', '')
+                            if nums[0].isnumeric() is nums[1].isnumeric() is True:
                                 check_quote = nums[0] + '.' + nums[1]
-                            check_quote = float(check_quote)
-                    elif key_val[1].isnumeric() is True:
-                        check_quote = int(key_val[1])
-                    else:
-                        continue
-                    dict_kwargs[key_val[0]] = check_quote
+                                if is_neg is True:
+                                    check_quote = '-' + nums[0] + '.' + nums[1]
+                                else:
+                                    check_quote = nums[0] + '.' + nums[1]
+                                check_quote = float(check_quote)
+                        elif key_val[1].isnumeric() is True:
+                            check_quote = int(key_val[1])
+                        else:
+                            continue
+                        dict_kwargs[key_val[0]] = check_quote  
                 else:
                     continue
             new_instance = HBNBCommand.classes[c_name]()
