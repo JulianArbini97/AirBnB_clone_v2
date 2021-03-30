@@ -148,7 +148,7 @@ class HBNBCommand(cmd.Cmd):
                                     check_quote = nums[0] + '.' + nums[1]
                                     if is_neg is True:
                                         check_quote = '-' + nums[0] + \
-                                        '.' + nums[1]
+                                                      '.' + nums[1]
                                     else:
                                         check_quote = nums[0] + '.' + nums[1]
                                     check_quote = float(check_quote)
