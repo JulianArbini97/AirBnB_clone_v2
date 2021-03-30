@@ -1,75 +1,129 @@
 #!/usr/bin/python3
-"""test for review"""
+""" Tests for Review class """
 import unittest
-import os
-from models.review import Review
+import datetime
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
+from models.review import Review
+import models
 import pep8
+import os
 
 
-class TestReview(unittest.TestCase):
-    """this will test the place class"""
+class TestingReview(unittest.TestCase):
+    """ Review class - tests """
+    def test_Review1(self):
+        """ Test of the Review class """
+        my_Review1 = Review()
+
+    def test_Review2(self):
+        """ Test of the Review class """
+        my_Review2 = Review(1)
+        my_Review3 = Review("hola")
+        my_Review4 = Review([1, 2, 3])
+        my_Review5 = Review({"hola": "chau"})
+
+    def test_Review3(self):
+        """ Test of the Review class """
+        self.assertEqual(str(type(Review)), "<class 'type'>")
+
+    def test_Review4(self):
+        """ Test of the Review class """
+        my_Review6 = Review()
+        self.assertEqual(isinstance(my_Review6, Review), True)
+
+    def test_Review5(self):
+        """ Test of the Review class """
+        my_Review7 = Review()
+        self.assertEqual(issubclass(Review, BaseModel), True)
+
+    def test_Review6(self):
+        """ Test of the Review class """
+        self.assertEqual(issubclass(Review, FileStorage), False)
+
+    def test_Review7(self):
+        """ Test of the Review class """
+        my_Review8 = Review()
+        my_Review8.place_id = "Dortmund"
+        my_Review8.user_id = "Julian"
+        my_Review8.text = "Very nice"
+        self.assertEqual(type(my_Review8.place_id), str)
+        self.assertEqual(type(my_Review8.user_id), str)
+        self.assertEqual(type(my_Review8.text), str)
+
     @classmethod
     def setUpClass(cls):
         """set up for test"""
         cls.rev = Review()
-        cls.rev.place_id = "4321-dcba"
-        cls.rev.user_id = "123-bca"
-        cls.rev.text = "The srongest in the Galaxy"
-
-    @classmethod
-    def teardown(cls):
-        """at the end of the test this will tear it down"""
-        del cls.rev
-
-    def tearDown(self):
-        """teardown"""
-        try:
-            os.remove("file.json")
-        except Exception:
-            pass
-
-    def test_pep8_Review(self):
-        """Tests pep8 style"""
-        style = pep8.StyleGuide(quiet=True)
-        p = style.check_files(['models/review.py'])
-        self.assertEqual(p.total_errors, 0, "fix pep8")
-
-    def test_checking_for_docstring_Review(self):
-        """checking for docstrings"""
-        self.assertIsNotNone(Review.__doc__)
-
-    def test_attributes_review(self):
-        """chekcing if review have attributes"""
-        self.assertTrue('id' in self.rev.__dict__)
-        self.assertTrue('created_at' in self.rev.__dict__)
-        self.assertTrue('updated_at' in self.rev.__dict__)
-        self.assertTrue('place_id' in self.rev.__dict__)
-        self.assertTrue('text' in self.rev.__dict__)
-        self.assertTrue('user_id' in self.rev.__dict__)
-
-    def test_is_subclass_Review(self):
-        """test if review is subclass of BaseModel"""
-        self.assertTrue(issubclass(self.rev.__class__, BaseModel), True)
-
-    def test_attribute_types_Review(self):
-        """test attribute type for Review"""
-        self.assertEqual(type(self.rev.text), str)
-        self.assertEqual(type(self.rev.place_id), str)
-        self.assertEqual(type(self.rev.user_id), str)
+        cls.rev.place_id = "2903820"
+        cls.rev.user_id = "091824"
+        cls.rev.text = "Very good"
 
     @unittest.skipIf(
         os.getenv('HBNB_TYPE_STORAGE') == 'db',
-        "This test only work in Filestorage")
+        "FileStorage only")
     def test_save_Review(self):
-        """test if the save works"""
+        """save test"""
         self.rev.save()
         self.assertNotEqual(self.rev.created_at, self.rev.updated_at)
 
     def test_to_dict_Review(self):
-        """test if dictionary works"""
+        """to_dict test"""
         self.assertEqual('to_dict' in dir(self.rev), True)
 
+    def test_Review8(self):
+        """ Test of the Review class """
+        my_Review9 = Review()
+        my_Review9.place_id = "Marco"
+        my_Review9.user_id = "Reus"
+        my_Review9.text = "11"
+        self.assertTrue("place_id" in my_Review9.__dict__)
+        self.assertTrue("user_id" in my_Review9.__dict__)
+        self.assertTrue("text" in my_Review9.__dict__)
+
+    def test_Review9(self):
+        """ Test of the Review class """
+        my_Review10 = Review()
+        self.assertFalse("first" in my_Review10.__dict__)
+
+    def test_Review10(self):
+        """ Test of the Review class """
+        my_review11 = Review()
+        self.assertEqual(type(my_review11.place_id), str)
+        self.assertEqual(type(my_review11.user_id), str)
+        self.assertEqual(type(my_review11.text), str)
+
+    def test_pep8(self):
+        """ppep8"""
+        style = pep8.StyleGuide(quiet=True)
+        result = style.check_files(['models/review.py'])
+        self.assertEqual(result.total_errors, 0, "fix pep8")
+
+    def test_Review12(self):
+        """Tests if the instance of BaseModel has been correctly made"""
+        my_review12 = Review()
+        self.assertTrue(hasattr(my_review12, "__init__"))
+        self.assertTrue(hasattr(my_review12, "created_at"))
+        self.assertTrue(hasattr(my_review12, "updated_at"))
+        self.assertTrue(hasattr(my_review12, "id"))
+
+    def test_Review13(self):
+        """Tests to see if each method is printing accurately"""
+        s = "[Review] ({}) {}"
+        my_review13 = Review()
+        my_review13printed = my_review13.__str__()
+        self.assertEqual(my_review13printed,
+                         s.format(my_review13.id, my_review13.to_dict()))
+
+    def test_Review14(self):
+        """Pass kwargs into the instance"""
+        my_review14 = Review(name="Denver")
+        self.assertEqual(type(my_review14).__name__, "Review")
+        self.assertTrue(hasattr(my_review14, "name"))
+        self.assertTrue(hasattr(my_review14, "id"))
+        self.assertTrue(hasattr(my_review14, "created_at"))
+        self.assertTrue(hasattr(my_review14, "updated_at"))
+        self.assertTrue(hasattr(my_review14, "__class__"))
 
 if __name__ == "__main__":
     unittest.main()

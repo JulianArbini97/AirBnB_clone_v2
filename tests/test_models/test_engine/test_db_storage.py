@@ -18,39 +18,39 @@ import MySQLdb
 
 @unittest.skipIf(
     os.getenv('HBNB_TYPE_STORAGE') != 'db',
-    "This test only work in DBStorage")
+    "Only for DBStorage")
 class TestDBStorage(unittest.TestCase):
-    """this will test the DBStorage"""
+    """test of the class DBStorage"""
 
     @classmethod
-    def setUpClass(cls):
+    def User_def(cls):
         """Tests"""
         cls.user = User()
-        cls.user.first_name = "Kev"
-        cls.user.last_name = "Yo"
-        cls.user.email = "1234@yahoo.com"
+        cls.user.first_name = "Name"
+        cls.user.last_name = "Last"
+        cls.user.email = "abc@def.com"
         cls.storage = FileStorage()
 
     @classmethod
     def teardown(cls):
-        """at the end of the test this will tear it down"""
+        """delete of the user"""
         del cls.user
 
-    def tearDown(self):
-        """teardown"""
+    def json_file_remover(self):
+        """json file remover"""
         try:
             os.remove("file.json")
         except Exception:
             pass
 
-    def test_pep8_DBStorage(self):
+    def test_pep8(self):
         """Tests pep8 style"""
-        style = pep8.StyleGuide(quiet=True)
-        p = style.check_files(['models/engine/db_storage.py'])
-        self.assertEqual(p.total_errors, 0, "fix pep8")
+        code = pep8.StyleGuide(quiet=True)
+        text = code.check_files(['models/engine/db_storage.py'])
+        self.assertEqual(text.total_errors, 0, "pep8 needs fix")
 
     def test_all(self):
-        """tests if all works in DB Storage"""
+        """DBStorage general testing"""
         storage = FileStorage()
         obj = storage.all()
         self.assertIsNotNone(obj)
@@ -58,19 +58,17 @@ class TestDBStorage(unittest.TestCase):
         self.assertIs(obj, storage._FileStorage__objects)
 
     def test_new(self):
-        """test when new is created"""
+        """new test"""
         storage = FileStorage()
         obj = storage.all()
         user = User()
-        user.name = "Kevin"
+        user.name = "Name"
         storage.new(user)
         key = user.__class__.__name__ + "." + str(user.id)
         self.assertIsNotNone(obj[key])
 
     def test_reload_dbtorage(self):
-        """
-        tests reload
-        """
+        """ reload test """
         self.storage.save()
         Root = os.path.dirname(os.path.abspath("console.py"))
         path = os.path.join(Root, "file.json")

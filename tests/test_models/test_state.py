@@ -1,69 +1,117 @@
 #!/usr/bin/python3
-"""test for state"""
+""" Tests for State class """
 import unittest
-import os
-from models.state import State
+import datetime
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
+from models.state import State
+import models
 import pep8
+import os
 
 
-class TestState(unittest.TestCase):
-    """this will test the State class"""
+class TestingState(unittest.TestCase):
+    """ State State - tests """
+    def test_State1(self):
+        """ Test of the State class """
+        my_state1 = State()
+
+    def test_State2(self):
+        """ Test of the State class """
+        my_State2 = State(1)
+        my_State3 = State("hola")
+        my_State4 = State([1, 2, 3])
+        my_State5 = State({"hola": "chau"})
+
+    def test_State3(self):
+        """ Test of the State class """
+        self.assertEqual(str(type(State)), "<class 'type'>")
+
+    def test_State4(self):
+        """ Test of the State class """
+        my_State6 = State()
+        self.assertEqual(isinstance(my_State6, State), True)
+
+    def test_State5(self):
+        """ Test of the State class """
+        my_State7 = State()
+        self.assertEqual(issubclass(State, BaseModel), True)
+
+    def test_State6(self):
+        """ Test of the State class """
+        self.assertEqual(issubclass(State, FileStorage), False)
+
+    def test_State7(self):
+        """ Test of the State class """
+        my_State8 = State()
+        my_State8.name = "Marco"
+        self.assertEqual(type(my_State8.name), str)
+
     @classmethod
     def setUpClass(cls):
-        """set up for test"""
+        """state definition"""
         cls.state = State()
-        cls.state.name = "CA"
-
-    @classmethod
-    def teardown(cls):
-        """at the end of the test this will tear it down"""
-        del cls.state
-
-    def tearDown(self):
-        """teardown"""
-        try:
-            os.remove("file.json")
-        except Exception:
-            pass
-
-    def test_pep8_Review(self):
-        """Tests pep8 style"""
-        style = pep8.StyleGuide(quiet=True)
-        p = style.check_files(['models/state.py'])
-        self.assertEqual(p.total_errors, 0, "fix pep8")
-
-    def test_checking_for_docstring_State(self):
-        """checking for docstrings"""
-        self.assertIsNotNone(State.__doc__)
-
-    def test_attributes_State(self):
-        """chekcing if State have attributes"""
-        self.assertTrue('id' in self.state.__dict__)
-        self.assertTrue('created_at' in self.state.__dict__)
-        self.assertTrue('updated_at' in self.state.__dict__)
-        self.assertTrue('name' in self.state.__dict__)
-
-    def test_is_subclass_State(self):
-        """test if State is subclass of BaseModel"""
-        self.assertTrue(issubclass(self.state.__class__, BaseModel), True)
-
-    def test_attribute_types_State(self):
-        """test attribute type for State"""
-        self.assertEqual(type(self.state.name), str)
+        cls.state.name = "Colorado"
 
     @unittest.skipIf(
         os.getenv('HBNB_TYPE_STORAGE') == 'db',
-        "This test only work in Filestorage")
+        "Filestorage only")
     def test_save_State(self):
-        """test if the save works"""
+        """save test"""
         self.state.save()
         self.assertNotEqual(self.state.created_at, self.state.updated_at)
 
     def test_to_dict_State(self):
-        """test if dictionary works"""
+        """to_dict test"""
         self.assertEqual('to_dict' in dir(self.state), True)
 
+    def test_State8(self):
+        """ Test of the State class """
+        my_State9 = State()
+        my_State9.name = "Marco"
+        self.assertTrue("name" in my_State9.__dict__)
+
+    def test_State9(self):
+        """ Test of the State class """
+        my_State10 = State()
+        self.assertFalse("first" in my_State10.__dict__)
+
+    def test_State10(self):
+        my_state11 = State()
+        my_state12 = State()
+        self.assertNotEqual(my_state11.id, my_state12.id)
+
+    def test_pep8(self):
+        """pepe8"""
+        style = pep8.StyleGuide(quiet=True)
+        result = style.check_files(['models/state.py'])
+        self.assertEqual(result.total_errors, 0, "fix pep8")
+
+    def test_str_method(self):
+        """str"""
+        s = "[State] ({}) {}"
+        my_state14 = State()
+        my_state14printed = my_state14.__str__()
+        self.assertEqual(my_state14printed,
+                         s.format(my_state14.id, my_state14.to_dict()))
+
+    def test_State12(self):
+        """Tests if the instance of BaseModel has been correctly made"""
+        my_state15 = State()
+        self.assertTrue(hasattr(my_state15, "__init__"))
+        self.assertTrue(hasattr(my_state15, "created_at"))
+        self.assertTrue(hasattr(my_state15, "updated_at"))
+        self.assertTrue(hasattr(my_state15, "id"))
+
+    def test_State11(self):
+        """kwargs"""
+        my_state13 = State(name="California")
+        self.assertEqual(type(my_state13).__name__, "State")
+        self.assertTrue(hasattr(my_state13, "name"))
+        self.assertTrue(hasattr(my_state13, "id"))
+        self.assertTrue(hasattr(my_state13, "created_at"))
+        self.assertTrue(hasattr(my_state13, "updated_at"))
+        self.assertTrue(hasattr(my_state13, "__class__"))
 
 if __name__ == "__main__":
     unittest.main()

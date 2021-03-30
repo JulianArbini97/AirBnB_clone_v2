@@ -1,100 +1,167 @@
 #!/usr/bin/python3
-"""test for place"""
+""" Tests for Place class """
 import unittest
-import os
-from models.place import Place
+import datetime
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
+from models.user import User
+from models.place import Place
+import models
 import pep8
+import os
 
 
-class TestPlace(unittest.TestCase):
-    """this will test the place class"""
+class TestingPlace(unittest.TestCase):
+    """ Place class - tests """
+    def test_Place1(self):
+        """ Test of the Place class """
+        my_place1 = Place()
+
+    def test_Place2(self):
+        """ Test of the Place class """
+        my_place2 = Place(1)
+        my_place3 = Place("hola")
+        my_place4 = Place([1, 2, 3])
+        my_place5 = Place({"hola": "chau"})
+
+    def test_Place3(self):
+        """ Test of the Place class """
+        self.assertEqual(type(Place), type)
+
+    def test_Place4(self):
+        """ Test of the Place class """
+        my_place6 = Place()
+        self.assertEqual(isinstance(my_place6, Place), True)
+
+    def test_Place5(self):
+        """ Test of the Place class """
+        my_place7 = Place()
+        self.assertEqual(issubclass(Place, BaseModel), True)
+
+    def test_Place6(self):
+        """ Test of the Place class """
+        self.assertEqual(issubclass(Place, FileStorage), False)
 
     @classmethod
     def setUpClass(cls):
         """set up for test"""
         cls.place = Place()
-        cls.place.city_id = "1234-abcd"
-        cls.place.user_id = "4321-dcba"
-        cls.place.name = "Death Star"
-        cls.place.description = "UNLIMITED POWER!!!!!"
-        cls.place.number_rooms = 1000000
-        cls.place.number_bathrooms = 1
-        cls.place.max_guest = 607360
-        cls.place.price_by_night = 10
-        cls.place.latitude = 160.0
-        cls.place.longitude = 120.0
-        cls.place.amenity_ids = ["1324-lksdjkl"]
-
-    @classmethod
-    def teardown(cls):
-        """at the end of the test this will tear it down"""
-        del cls.place
-
-    def tearDown(self):
-        """teardown"""
-        try:
-            os.remove("file.json")
-        except Exception:
-            pass
-
-    def test_pep8_Place(self):
-        """Tests pep8 style"""
-        style = pep8.StyleGuide(quiet=True)
-        p = style.check_files(['models/place.py'])
-        self.assertEqual(p.total_errors, 0, "fix pep8")
-
-    def test_checking_for_docstring_Place(self):
-        """checking for docstrings"""
-        self.assertIsNotNone(Place.__doc__)
-
-    def test_attributes_Place(self):
-        """checking if amenity have attributes"""
-        self.assertTrue('id' in self.place.__dict__)
-        self.assertTrue('created_at' in self.place.__dict__)
-        self.assertTrue('updated_at' in self.place.__dict__)
-        self.assertTrue('city_id' in self.place.__dict__)
-        self.assertTrue('user_id' in self.place.__dict__)
-        self.assertTrue('name' in self.place.__dict__)
-        self.assertTrue('description' in self.place.__dict__)
-        self.assertTrue('number_rooms' in self.place.__dict__)
-        self.assertTrue('number_bathrooms' in self.place.__dict__)
-        self.assertTrue('max_guest' in self.place.__dict__)
-        self.assertTrue('price_by_night' in self.place.__dict__)
-        self.assertTrue('latitude' in self.place.__dict__)
-        self.assertTrue('longitude' in self.place.__dict__)
-        self.assertTrue('amenity_ids' in self.place.__dict__)
-
-    def test_is_subclass_Place(self):
-        """test if Place is subclass of Basemodel"""
-        self.assertTrue(issubclass(self.place.__class__, BaseModel), True)
-
-    def test_attribute_types_Place(self):
-        """test attribute type for Place"""
-        self.assertEqual(type(self.place.city_id), str)
-        self.assertEqual(type(self.place.user_id), str)
-        self.assertEqual(type(self.place.name), str)
-        self.assertEqual(type(self.place.description), str)
-        self.assertEqual(type(self.place.number_rooms), int)
-        self.assertEqual(type(self.place.number_bathrooms), int)
-        self.assertEqual(type(self.place.max_guest), int)
-        self.assertEqual(type(self.place.price_by_night), int)
-        self.assertEqual(type(self.place.latitude), float)
-        self.assertEqual(type(self.place.longitude), float)
-        self.assertEqual(type(self.place.amenity_ids), list)
+        cls.place.city_id = "9876213"
+        cls.place.user_id = "293698235"
+        cls.place.name = "Montevideo"
+        cls.place.description = "Izquierda"
+        cls.place.number_rooms = 5
+        cls.place.number_bathrooms = 12
+        cls.place.max_guest = 2520935
+        cls.place.price_by_night = 50
+        cls.place.latitude = 28723.2384
+        cls.place.longitude = 21897.978
+        cls.place.amenity_ids = ["34590340-kjdf"]
 
     @unittest.skipIf(
         os.getenv('HBNB_TYPE_STORAGE') == 'db',
-        "This test only work in Filestorage")
+        "FileStorage only")
     def test_save_Place(self):
-        """test if the save works"""
+        """save test"""
         self.place.save()
         self.assertNotEqual(self.place.created_at, self.place.updated_at)
 
     def test_to_dict_Place(self):
-        """test if dictionary works"""
+        """to_dict test"""
         self.assertEqual('to_dict' in dir(self.place), True)
 
+    def test_Place7(self):
+        """ Test of the Place class """
+        my_place8 = Place()
+        my_place8.name = "Curtis"
+        my_place8.description = "Jones"
+        my_place8.number_rooms = 17
+        my_place8.number_bathrooms = 18
+        my_place8.max_guest = 13
+        my_place8.price_by_night = 17
+        my_place8.latitude = 53.430180
+        my_place8.longitude = -2.926749
+        self.assertEqual(type(my_place8.name), str)
+        self.assertEqual(type(my_place8.description), str)
+        self.assertEqual(type(my_place8.number_rooms), int)
+        self.assertEqual(type(my_place8.number_bathrooms), int)
+        self.assertEqual(type(my_place8.max_guest), int)
+        self.assertEqual(type(my_place8.price_by_night), int)
+        self.assertEqual(type(my_place8.latitude), float)
+        self.assertEqual(type(my_place8.longitude), float)
+
+    def test_Place8(self):
+        """ Test of the Place class """
+        my_place9 = Place()
+        my_place9.name = "Curtis"
+        my_place9.description = "Jones"
+        my_place9.number_rooms = 17
+        my_place9.number_bathrooms = 18
+        my_place9.max_guest = 13
+        my_place9.price_by_night = 17
+        my_place9.latitude = 53.430180
+        my_place9.longitude = -2.926749
+        self.assertTrue("name" in my_place9.__dict__)
+        self.assertTrue("description" in my_place9.__dict__)
+        self.assertTrue("number_rooms" in my_place9.__dict__)
+        self.assertTrue("number_bathrooms" in my_place9.__dict__)
+        self.assertTrue("max_guest" in my_place9.__dict__)
+        self.assertTrue("price_by_night" in my_place9.__dict__)
+        self.assertTrue("latitude" in my_place9.__dict__)
+        self.assertTrue("longitude" in my_place9.__dict__)
+
+    def test_Place9(self):
+        """ Test of the Place class """
+        my_place10 = Place()
+        self.assertFalse("first" in my_place10.__dict__)
+
+    def test_Place10(self):
+        """ Test for Place class """
+        my_place10 = Place()
+        self.assertEqual(type(my_place10.city_id), str)
+
+    def test_Place11(self):
+        """ Test of the Place class """
+        my_place11 = Place()
+        self.assertEqual(type(my_place11.user_id), str)
+
+    def test_Place11(self):
+        """ Test of the Place class """
+        my_place12 = Place()
+        self.assertEqual(type(my_place12.amenity_ids), list)
+
+    def test_Place12(self):
+        my_place11 = Place()
+        my_place12 = Place()
+        self.assertNotEqual(my_place11.id, my_place12.id)
+
+    def test_Place13(self):
+        self.assertEqual(Place, type(Place()))
+        self.assertEqual(str, type(Place().id))
+
+    def test_pep8(self):
+        """test pep8 comes back clean"""
+        style = pep8.StyleGuide(quiet=True)
+        result = style.check_files(['models/place.py'])
+        self.assertEqual(result.total_errors, 0, "fix pep8")
+
+    def test_Place14(self):
+        """Tests if the instance of BaseModel has been correctly made"""
+        my_place14 = Place()
+        self.assertTrue(hasattr(my_place14, "__init__"))
+        self.assertTrue(hasattr(my_place14, "created_at"))
+        self.assertTrue(hasattr(my_place14, "updated_at"))
+        self.assertTrue(hasattr(my_place14, "id"))
+
+    def test_init_kwarg(self):
+        """Pass kwargs into the instance"""
+        my_place15 = Place(name="Denver")
+        self.assertEqual(type(my_place15).__name__, "Place")
+        self.assertTrue(hasattr(my_place15, "name"))
+        self.assertTrue(hasattr(my_place15, "id"))
+        self.assertTrue(hasattr(my_place15, "created_at"))
+        self.assertTrue(hasattr(my_place15, "updated_at"))
+        self.assertTrue(hasattr(my_place15, "__class__"))
 
 if __name__ == "__main__":
     unittest.main()
