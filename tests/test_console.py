@@ -13,3 +13,18 @@ class test_pep8aa(unittest.TestCase):
         result = pep8s.check_files(['console.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
+
+"""
+create State name="Montevideo"
+create State name="Montevideo"
+create State name="Canelones"
+create State name="Canelones"
+create State name="Maldonado"
+create State name="Maldonado"
+create State name="Melo"
+create State name="Cerro Largo"
+create State name="Lavalleja"
+create State name="Minas"
+create State name="Flores"
+create State name="Trinidad"
+"""
