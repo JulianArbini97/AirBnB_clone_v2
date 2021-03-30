@@ -2,10 +2,10 @@
 """ xxxddd """
 
 import pep8
-import models
+from models.state import State
 import MySQLdb
 import unittest
-from os import getenv
+from models.engine.db_storage import DBStorage
 
 class test_db_storage(unittest.TestCase):
     """ xd """
@@ -25,15 +25,20 @@ class test_db_storage(unittest.TestCase):
         consulta = nuevaconexion.cursor()
         consulta.execute("SELECT * FROM states")
         resultado = consulta.fetchall()
+        cant1 = 0
+        cant2 = 0
         for fila in resultado:
             cant1 = cant1 + 1
 
         new = State()
+        State.name = "California"
+        self.storage = DBStorage()
+        self.storage.reload()
 
         consulta2 = nuevaconexion.cursor()
         consulta2.execute("SELECT * FROM states")
         resultado2 = consulta2.fetchall()
         for fila in resultado2:
-            cant1 = cant1 + 1
+            cant2 = cant2 + 1
 
         self.assertEqual(cant1 + 1, cant2)
