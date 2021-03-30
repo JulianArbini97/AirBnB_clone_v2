@@ -150,6 +150,9 @@ class HBNBCommand(cmd.Cmd):
                                 else:
                                     check_quote = nums[0] + '.' + nums[1]
                                 check_quote = float(check_quote)
+                        elif key_val[1][0] == "-": 
+                            if key_val[1][1:].isnumeric() is True:
+                                check_quote = int(key_val[1])
                         elif key_val[1].isnumeric() is True:
                             check_quote = int(key_val[1])
                         else:
