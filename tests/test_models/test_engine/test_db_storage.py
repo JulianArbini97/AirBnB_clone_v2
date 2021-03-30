@@ -24,14 +24,6 @@ class TestDBStorage(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """set up for test"""
-        """
-        environ['HBNB_ENV'] = 'test'
-        environ['HBNB_MYSQL_USER'] = 'hbnb_test'
-        environ['HBNB_MYSQL_PWD'] = 'hbnb_test_pwd'
-        environ['HBNB_MYSQL_HOST'] = 'localhost'
-        environ['HBNB_MYSQL_DB'] = 'hbnb_test_db'
-        environ['HBNB_TYPE_STORAGE'] = 'db'
-        """
         pass
 
     @unittest.skipIf('HBNB_TYPE_STORAGE' not in environ or
@@ -48,14 +40,7 @@ class TestDBStorage(unittest.TestCase):
         self.storage.reload()
 
     def tearDownClass():
-        """
-        del environ['HBNB_ENV']
-        del environ['HBNB_MYSQL_USER']
-        del environ['HBNB_MYSQL_PWD']
-        del environ['HBNB_MYSQL_HOST']
-        del environ['HBNB_MYSQL_DB']
-        del environ['HBNB_TYPE_STORAGE']
-        """
+
         pass
 
     @unittest.skipIf('HBNB_TYPE_STORAGE' not in environ or
@@ -111,6 +96,3 @@ class TestDBStorage(unittest.TestCase):
     def test_reload(self):
         """Tests db_storage delete method"""
         pass
-    """def test_reload(self):
-    Should we do this?
-    Also I think we should delete the commits on both new and delete """
