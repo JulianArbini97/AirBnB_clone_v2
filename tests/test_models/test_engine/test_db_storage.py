@@ -5,21 +5,35 @@ import pep8
 import models
 import MySQLdb
 import unittest
+from os import getenv
 
 class test_db_storage(unittest.TestCase):
     """ xd """
     
-def test_add(self):
-    """ xdxd """
-    engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
-                           .format(getenv("HBNB_MYSQL_USER"), getenv("HBNB_MYSQL_PWD"), getenv("HBNB_MYSQL_HOST"), getenv("HBNB_MYSQL_DB")), pool_pre_ping=True)
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    cant1 = 0
-    cant2 = 0
-    for instance in session.query(State).order_by(State.id):
-        cant1 = cant1 + 1
-    new = State()
-    for instance in session.query(State).order_by(State.id):
-        cant2 = cant2 + 1
-    self.assertEqual(cant1 + 1, cant2)
+    def test_add(self):
+        """ xdxd """
+
+        MY_H = "localhost"
+        MY_U = "root"
+        MY_P = "root"
+        MY_D = "hbnb_dev_db"
+
+        print(MY_D, MY_H, MY_P, MY_U)
+
+        nuevaconexion = MySQLdb.connect(host=MY_H, user=MY_U, passwd=MY_P, db=MY_D)
+
+        consulta = nuevaconexion.cursor()
+        consulta.execute("SELECT * FROM states")
+        resultado = consulta.fetchall()
+        for fila in resultado:
+            cant1 = cant1 + 1
+
+        new = State()
+
+        consulta2 = nuevaconexion.cursor()
+        consulta2.execute("SELECT * FROM states")
+        resultado2 = consulta2.fetchall()
+        for fila in resultado2:
+            cant1 = cant1 + 1
+
+        self.assertEqual(cant1 + 1, cant2)
