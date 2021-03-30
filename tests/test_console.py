@@ -15,6 +15,11 @@ class test_pep8aa(unittest.TestCase):
                          "Found code style errors (and warnings).")
 
 """
+link test pep8
+https://pep8.readthedocs.io/en/release-1.7.x/advanced.html
+"""
+
+"""
 create State name="Montevideo"
 create City name="Montevideo"
 create State name="Canelones"
