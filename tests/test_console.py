@@ -45,23 +45,3 @@ class test_pep8aa(unittest.TestCase):
                          "HBNBCommand class needs a docstring")
         self.assertTrue(len(HBNBCommand.__doc__) >= 1,
                         "HBNBCommand class needs a docstring")
-
-"""
-link test pep8
-https://pep8.readthedocs.io/en/release-1.7.x/advanced.html
-"""
-
-"""
-create State name="Montevideo"
-create City name="Montevideo"
-create State name="Canelones"
-create City name="Canelones"
-create State name="Maldonado"
-create City name="Maldonado"
-create State name="Melo"
-create City name="Cerro Largo"
-create State name="Lavalleja"
-create City name="Minas"
-create State name="Flores"
-create City name="Trinidad"
-"""
