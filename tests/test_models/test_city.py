@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""test for city"""
+""" testing """
 import unittest
 import os
 from models.city import City
@@ -8,38 +8,38 @@ import pep8
 
 
 class TestCity(unittest.TestCase):
-    """this will test the city class"""
+    """ if we make a muñeco """
     @classmethod
     def setUpClass(cls):
-        """set up for test"""
+        """ create city """
         cls.city = City()
         cls.city.name = "LA"
         cls.city.state_id = "CA"
 
     @classmethod
     def teardown(cls):
-        """at the end of the test this will tear it down"""
+        """ if we make a muñeco """
         del cls.city
 
     def tearDown(self):
-        """teardown"""
+        """ test json """
         try:
             os.remove("file.json")
         except Exception:
             pass
 
     def test_pep8_City(self):
-        """Tests pep8 style"""
+        """ testing pep8 """
         style = pep8.StyleGuide(quiet=True)
         p = style.check_files(['models/city.py'])
         self.assertEqual(p.total_errors, 0, "fix pep8")
 
     def test_checking_for_docstring_City(self):
-        """checking for docstrings"""
+        """ testing city docs """
         self.assertIsNotNone(City.__doc__)
 
     def test_attributes_City(self):
-        """chekcing if City have attributes"""
+        """ testing city """
         self.assertTrue('id' in self.city.__dict__)
         self.assertTrue('created_at' in self.city.__dict__)
         self.assertTrue('updated_at' in self.city.__dict__)
@@ -47,11 +47,11 @@ class TestCity(unittest.TestCase):
         self.assertTrue('name' in self.city.__dict__)
 
     def test_is_subclass_City(self):
-        """test if City is subclass of Basemodel"""
+        """ testing city """
         self.assertTrue(issubclass(self.city.__class__, BaseModel), True)
 
     def test_attribute_types_City(self):
-        """test attribute type for City"""
+        """ test city """
         self.assertEqual(type(self.city.name), str)
         self.assertEqual(type(self.city.state_id), str)
 
@@ -59,12 +59,12 @@ class TestCity(unittest.TestCase):
         os.getenv('HBNB_TYPE_STORAGE') == 'db',
         "This test only work in Filestorage")
     def test_save_City(self):
-        """test if the save works"""
+        """ test city """
         self.city.save()
         self.assertNotEqual(self.city.created_at, self.city.updated_at)
 
     def test_to_dict_City(self):
-        """test if dictionary works"""
+        """ testing city """
         self.assertEqual('to_dict' in dir(self.city), True)
 
 

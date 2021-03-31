@@ -1,11 +1,5 @@
 #!/usr/bin/python
-"""Unittests for DBStorage class of AirBnb_Clone_v2"""
-import unittest
-import pep8
-import os
-from os import getenv
-from models.base_model import BaseModel
-from models.user import User
+""" testing """
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
@@ -14,43 +8,49 @@ from models.review import Review
 from models.engine.db_storage import DBStorage
 from models.engine.file_storage import FileStorage
 import MySQLdb
+import unittest
+import pep8
+import os
+from os import getenv
+from models.base_model import BaseModel
+from models.user import User
 
 
 @unittest.skipIf(
     os.getenv('HBNB_TYPE_STORAGE') != 'db',
     "This test only work in DBStorage")
 class TestDBStorage(unittest.TestCase):
-    """this will test the DBStorage"""
+    """ testing """
 
     @classmethod
     def setUpClass(cls):
         """Tests"""
         cls.user = User()
-        cls.user.first_name = "Kev"
-        cls.user.last_name = "Yo"
-        cls.user.email = "1234@yahoo.com"
+        cls.user.first_name = "Mesa"
+        cls.user.last_name = "diez"
+        cls.user.email = "correo@hbtn.com"
         cls.storage = FileStorage()
 
     @classmethod
     def teardown(cls):
-        """at the end of the test this will tear it down"""
+        """ testing """
         del cls.user
 
     def tearDown(self):
-        """teardown"""
+        """ testing """
         try:
             os.remove("file.json")
         except Exception:
             pass
 
     def test_pep8_DBStorage(self):
-        """Tests pep8 style"""
+        """ testing """
         style = pep8.StyleGuide(quiet=True)
         p = style.check_files(['models/engine/db_storage.py'])
-        self.assertEqual(p.total_errors, 0, "fix pep8")
+        self.assertEqual(p.total_errors, 0, "pep8 errors")
 
     def test_all(self):
-        """tests if all works in DB Storage"""
+        """ testing """
         storage = FileStorage()
         obj = storage.all()
         self.assertIsNotNone(obj)
@@ -58,19 +58,17 @@ class TestDBStorage(unittest.TestCase):
         self.assertIs(obj, storage._FileStorage__objects)
 
     def test_new(self):
-        """test when new is created"""
+        """ testing """
         storage = FileStorage()
         obj = storage.all()
         user = User()
-        user.name = "Kevin"
+        user.name = "hbtn"
         storage.new(user)
         key = user.__class__.__name__ + "." + str(user.id)
         self.assertIsNotNone(obj[key])
 
     def test_reload_dbtorage(self):
-        """
-        tests reload
-        """
+        """ testing """
         self.storage.save()
         Root = os.path.dirname(os.path.abspath("console.py"))
         path = os.path.join(Root, "file.json")

@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""test for file storage"""
+""" testing """
 import unittest
 import pep8
 import json
@@ -18,37 +18,37 @@ from models.engine.file_storage import FileStorage
     os.getenv('HBNB_TYPE_STORAGE') == 'db',
     "This test only work in Filestorage")
 class TestFileStorage(unittest.TestCase):
-    """this will test the FileStorage"""
+    """ testing """
 
     @classmethod
     def setUpClass(cls):
-        """set up for test"""
+        """ testing """
         cls.user = User()
-        cls.user.first_name = "Kev"
-        cls.user.last_name = "Yo"
-        cls.user.email = "1234@yahoo.com"
+        cls.user.first_name = "mesa"
+        cls.user.last_name = "diez"
+        cls.user.email = "hbtn@coreo.com"
         cls.storage = FileStorage()
 
     @classmethod
     def teardown(cls):
-        """at the end of the test this will tear it down"""
+        """ testing """
         del cls.user
 
     def tearDown(self):
-        """teardown"""
+        """ testing """
         try:
             os.remove("file.json")
         except Exception:
             pass
 
     def test_pep8_FileStorage(self):
-        """Tests pep8 style"""
+        """ testing """
         style = pep8.StyleGuide(quiet=True)
         p = style.check_files(['models/engine/file_storage.py'])
-        self.assertEqual(p.total_errors, 0, "fix pep8")
+        self.assertEqual(p.total_errors, 0, "pep8 errors")
 
     def test_all(self):
-        """tests if all works in File Storage"""
+        """ testing """
         storage = FileStorage()
         obj = storage.all()
         self.assertIsNotNone(obj)
@@ -56,19 +56,17 @@ class TestFileStorage(unittest.TestCase):
         self.assertIs(obj, storage._FileStorage__objects)
 
     def test_new(self):
-        """test when new is created"""
+        """ testing """
         storage = FileStorage()
         obj = storage.all()
         user = User()
-        user.name = "Kevin"
+        user.name = "holberton"
         storage.new(user)
         key = user.__class__.__name__ + "." + str(user.id)
         self.assertIsNotNone(obj[key])
 
     def test_reload_filestorage(self):
-        """
-        tests reload
-        """
+        """ testing """
         self.storage.save()
         Root = os.path.dirname(os.path.abspath("console.py"))
         path = os.path.join(Root, "file.json")

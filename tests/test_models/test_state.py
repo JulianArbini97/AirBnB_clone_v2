@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""test for state"""
+""" testing """
 import unittest
 import os
 from models.state import State
@@ -8,60 +8,60 @@ import pep8
 
 
 class TestState(unittest.TestCase):
-    """this will test the State class"""
+    """ testing states"""
     @classmethod
     def setUpClass(cls):
-        """set up for test"""
+        """ test """
         cls.state = State()
-        cls.state.name = "CA"
+        cls.state.name = "Montevideo"
 
     @classmethod
     def teardown(cls):
-        """at the end of the test this will tear it down"""
+        """ delete """
         del cls.state
 
     def tearDown(self):
-        """teardown"""
+        """ testing """
         try:
             os.remove("file.json")
         except Exception:
             pass
 
     def test_pep8_Review(self):
-        """Tests pep8 style"""
+        """ test """
         style = pep8.StyleGuide(quiet=True)
         p = style.check_files(['models/state.py'])
-        self.assertEqual(p.total_errors, 0, "fix pep8")
+        self.assertEqual(p.total_errors, 0, "pep8 errors")
 
     def test_checking_for_docstring_State(self):
-        """checking for docstrings"""
+        """test"""
         self.assertIsNotNone(State.__doc__)
 
     def test_attributes_State(self):
-        """chekcing if State have attributes"""
+        """test"""
         self.assertTrue('id' in self.state.__dict__)
         self.assertTrue('created_at' in self.state.__dict__)
         self.assertTrue('updated_at' in self.state.__dict__)
         self.assertTrue('name' in self.state.__dict__)
 
     def test_is_subclass_State(self):
-        """test if State is subclass of BaseModel"""
+        """test"""
         self.assertTrue(issubclass(self.state.__class__, BaseModel), True)
 
     def test_attribute_types_State(self):
-        """test attribute type for State"""
+        """test State"""
         self.assertEqual(type(self.state.name), str)
 
     @unittest.skipIf(
         os.getenv('HBNB_TYPE_STORAGE') == 'db',
         "This test only work in Filestorage")
     def test_save_State(self):
-        """test if the save works"""
+        """test"""
         self.state.save()
         self.assertNotEqual(self.state.created_at, self.state.updated_at)
 
     def test_to_dict_State(self):
-        """test if dictionary works"""
+        """test"""
         self.assertEqual('to_dict' in dir(self.state), True)
 
 
