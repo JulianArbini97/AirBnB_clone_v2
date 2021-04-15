@@ -6,6 +6,7 @@ import os
 
 env.hosts = ['35.243.221.13', '35.237.166.41']
 
+
 def do_deploy(archive_path):
     """Fabric script distributes archive to web servers """
     if os.path.exists(archive_path):
