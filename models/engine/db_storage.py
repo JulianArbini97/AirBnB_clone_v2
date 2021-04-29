@@ -68,3 +68,7 @@ class DBStorage:
         new_session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(new_session)
         self.__session = Session()
+
+    def close(self):
+        """ Updated method """
+        self.__session.close()
