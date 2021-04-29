@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ Write a script that starts a Flask web application """
-from flask import Flask
+from flask import Flask, render_template
 
 
 app = Flask(__name__)
@@ -36,6 +36,12 @@ def Python_world(text='is cool'):
 def integer_world(n):
     """ Returns something with number """
     return ("{} is a number".format(n))
+
+
+@app.route('/number_template/<int:n>')
+def number_template(n):
+    """ Returns number in template """
+    return render_template('5-number.html', number=n)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)

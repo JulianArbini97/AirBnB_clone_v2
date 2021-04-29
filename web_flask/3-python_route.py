@@ -24,9 +24,10 @@ def C_world(text):
     """ Returns something with C """
     return 'C %s' % text.replace('_', ' ')
 
+
 @app.route('/python/<text>')
 @app.route('/python')
-def Python_world(text = 'is cool'):
+def Python_world(text='is cool'):
     """ Returns something with Python """
     return 'Python %s' % text.replace('_', ' ')
 
