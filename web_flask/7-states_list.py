@@ -57,6 +57,7 @@ def State_world():
     list_states = storage.all(State).values()
     return render_template('7-states_list.html', list_states=list_states)
 
+
 @app.teardown_appcontext
 def Down_World(exception):
     """ DB will be closed automatically at the end of the request """
