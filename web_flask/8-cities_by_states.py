@@ -57,11 +57,13 @@ def State_world():
     list_states = storage.all(State).values()
     return render_template('7-states_list.html', list_states=list_states)
 
+
 @app.route('/cities_by_states')
 def Cities_World():
     """ List of cities from State """
     list_states = storage.all(State).values()
     return render_template('8-cities_by_states.html', list_states=list_states)
+
 
 @app.teardown_appcontext
 def Down_World(exception):
