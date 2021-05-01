@@ -5,5 +5,6 @@ from models import storage
 from models.state import State
 
 
-list_states = storage.all(State).values()
+list_states = storage.all(State).keys()
 print(list_states)
+print("AAAAAAAAAAAAAAA")
